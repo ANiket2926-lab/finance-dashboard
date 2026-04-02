@@ -1,8 +1,8 @@
 'use client';
 
-import { Menu, Moon, Sun, ChevronDown } from 'lucide-react';
+import { Menu, Moon, Sun, Shield, Eye } from 'lucide-react';
 import { useApp } from '@/context/AppContext';
-import { Role } from '@/types';
+import { cn } from '@/utils';
 
 interface TopNavbarProps {
   onMenuClick: () => void;
@@ -10,9 +10,10 @@ interface TopNavbarProps {
 
 export default function TopNavbar({ onMenuClick }: TopNavbarProps) {
   const { state, dispatch } = useApp();
+  const isAdmin = state.role === 'admin';
 
-  const handleRoleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    dispatch({ type: 'SET_ROLE', payload: e.target.value as Role });
+  const toggleRole = () => {
+    dispatch({ type: 'SET_ROLE', payload: isAdmin ? 'viewer' : 'admin' });
   };
 
   return (
@@ -21,7 +22,7 @@ export default function TopNavbar({ onMenuClick }: TopNavbarProps) {
       <div className="flex items-center gap-3">
         <button
           onClick={onMenuClick}
-          className="lg:hidden p-2 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+          className="lg:hidden p-2 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors active:scale-95"
           aria-label="Toggle menu"
         >
           <Menu className="h-5 w-5 text-gray-600 dark:text-gray-400" />
@@ -30,23 +31,28 @@ export default function TopNavbar({ onMenuClick }: TopNavbarProps) {
 
       {/* Right side */}
       <div className="flex items-center gap-3">
-        {/* Role Selector */}
-        <div className="relative">
-          <select
-            value={state.role}
-            onChange={handleRoleChange}
-            className="appearance-none flex items-center gap-2 px-4 py-2 pr-9 rounded-xl text-sm font-medium border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors cursor-pointer focus:outline-none focus:ring-2 focus:ring-indigo-500/50"
-          >
-            <option value="admin">👑 Admin</option>
-            <option value="viewer">👁️ Viewer</option>
-          </select>
-          <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-gray-400 pointer-events-none" />
-        </div>
+        {/* Role Toggle Button */}
+        <button
+          onClick={toggleRole}
+          className={cn(
+            'flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium border transition-all duration-200 active:scale-[0.97]',
+            isAdmin
+              ? 'border-indigo-200 dark:border-indigo-800 bg-indigo-50 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-300 hover:bg-indigo-100 dark:hover:bg-indigo-900/50'
+              : 'border-amber-200 dark:border-amber-800 bg-amber-50 dark:bg-amber-900/30 text-amber-700 dark:text-amber-300 hover:bg-amber-100 dark:hover:bg-amber-900/50'
+          )}
+        >
+          {isAdmin ? (
+            <Shield className="h-4 w-4" />
+          ) : (
+            <Eye className="h-4 w-4" />
+          )}
+          {isAdmin ? 'Admin' : 'Viewer'}
+        </button>
 
         {/* Dark Mode Toggle */}
         <button
           onClick={() => dispatch({ type: 'TOGGLE_DARK_MODE' })}
-          className="relative p-2.5 rounded-xl border border-gray-200 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-800 transition-all duration-300 group"
+          className="relative p-2.5 rounded-xl border border-gray-200 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-800 transition-all duration-300 active:scale-95"
           aria-label="Toggle dark mode"
         >
           <div className="relative h-5 w-5">

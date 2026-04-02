@@ -1,6 +1,7 @@
 'use client';
 
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from 'recharts';
+import { PieChart as PieChartIcon } from 'lucide-react';
 import { CategorySpending } from '@/types';
 import { formatCurrency } from '@/utils';
 
@@ -11,12 +12,16 @@ interface SpendingPieChartProps {
 export default function SpendingPieChart({ data }: SpendingPieChartProps) {
   if (data.length === 0) {
     return (
-      <div className="rounded-2xl bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 p-6">
+      <div className="rounded-2xl bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 p-6 h-full">
         <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">
           Spending by Category
         </h3>
-        <div className="flex h-64 items-center justify-center text-gray-400">
-          No expense data
+        <div className="flex h-64 flex-col items-center justify-center text-center">
+          <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-gray-100 dark:bg-gray-800 mb-3">
+            <PieChartIcon className="h-7 w-7 text-gray-400 dark:text-gray-500" />
+          </div>
+          <p className="text-sm font-medium text-gray-500 dark:text-gray-400">No expense data yet</p>
+          <p className="text-xs text-gray-400 dark:text-gray-500 mt-1">Expense categories will appear here.</p>
         </div>
       </div>
     );
@@ -68,10 +73,10 @@ export default function SpendingPieChart({ data }: SpendingPieChartProps) {
           {data.slice(0, 6).map((item) => (
             <div
               key={item.name}
-              className="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors"
+              className="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors cursor-default"
             >
               <div
-                className="h-3 w-3 rounded-full flex-shrink-0"
+                className="h-3 w-3 rounded-full flex-shrink-0 transition-transform hover:scale-125"
                 style={{ backgroundColor: item.color }}
               />
               <div className="min-w-0 flex-1">

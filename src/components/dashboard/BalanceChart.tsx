@@ -10,6 +10,7 @@ import {
   Area,
   AreaChart,
 } from 'recharts';
+import { TrendingUp } from 'lucide-react';
 import { MonthlyData } from '@/types';
 import { formatCurrency } from '@/utils';
 
@@ -20,12 +21,16 @@ interface BalanceChartProps {
 export default function BalanceChart({ data }: BalanceChartProps) {
   if (data.length === 0) {
     return (
-      <div className="rounded-2xl bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 p-6">
+      <div className="rounded-2xl bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 p-6 h-full">
         <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">
           Balance Over Time
         </h3>
-        <div className="flex h-64 items-center justify-center text-gray-400">
-          No data available
+        <div className="flex h-64 flex-col items-center justify-center text-center">
+          <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-gray-100 dark:bg-gray-800 mb-3">
+            <TrendingUp className="h-7 w-7 text-gray-400 dark:text-gray-500" />
+          </div>
+          <p className="text-sm font-medium text-gray-500 dark:text-gray-400">No chart data yet</p>
+          <p className="text-xs text-gray-400 dark:text-gray-500 mt-1">Add transactions to see your balance trend.</p>
         </div>
       </div>
     );

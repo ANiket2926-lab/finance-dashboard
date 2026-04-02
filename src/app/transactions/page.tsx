@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Plus } from 'lucide-react';
+import { Plus, Lock } from 'lucide-react';
 import AppShell from '@/components/layout/AppShell';
 import TransactionTable from '@/components/transactions/TransactionTable';
 import TransactionFilters from '@/components/transactions/TransactionFilters';
@@ -16,6 +16,7 @@ export default function TransactionsPage() {
   const isAdmin = state.role === 'admin';
 
   const handleEdit = (transaction: Transaction) => {
+    if (!isAdmin) return;
     setEditTarget(transaction);
     setIsModalOpen(true);
   };
@@ -38,19 +39,49 @@ export default function TransactionsPage() {
               {filteredTransactions.length} transaction{filteredTransactions.length !== 1 ? 's' : ''} found
             </p>
           </div>
-          {isAdmin && (
+
+          {/* Add Button — always visible, disabled for Viewer */}
+          <div className="relative group/add">
             <button
               onClick={() => {
+                if (!isAdmin) return;
                 setEditTarget(null);
                 setIsModalOpen(true);
               }}
-              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-medium text-white bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 shadow-lg shadow-indigo-500/25 hover:shadow-indigo-500/40 transition-all duration-200"
+              disabled={!isAdmin}
+              className={`inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 ${
+                isAdmin
+                  ? 'text-white bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 shadow-lg shadow-indigo-500/25 hover:shadow-indigo-500/40 active:scale-[0.97]'
+                  : 'text-gray-400 dark:text-gray-500 bg-gray-100 dark:bg-gray-800 cursor-not-allowed opacity-60'
+              }`}
             >
-              <Plus className="h-4 w-4" />
+              {isAdmin ? (
+                <Plus className="h-4 w-4" />
+              ) : (
+                <Lock className="h-3.5 w-3.5" />
+              )}
               Add Transaction
             </button>
-          )}
+
+            {/* Viewer tooltip */}
+            {!isAdmin && (
+              <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-3 py-1.5 rounded-lg bg-gray-900 dark:bg-gray-700 text-white text-xs font-medium whitespace-nowrap opacity-0 group-hover/add:opacity-100 transition-opacity duration-200 pointer-events-none shadow-lg">
+                Switch to Admin to modify transactions
+                <div className="absolute top-full left-1/2 -translate-x-1/2 border-4 border-transparent border-t-gray-900 dark:border-t-gray-700" />
+              </div>
+            )}
+          </div>
         </div>
+
+        {/* Viewer banner */}
+        {!isAdmin && (
+          <div className="flex items-center gap-3 px-4 py-3 rounded-xl bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800/50 animate-fade-in">
+            <Lock className="h-4 w-4 text-amber-500 flex-shrink-0" />
+            <p className="text-sm text-amber-700 dark:text-amber-400">
+              You&apos;re in <span className="font-semibold">Viewer</span> mode. Switch to <span className="font-semibold">Admin</span> to add, edit, or delete transactions.
+            </p>
+          </div>
+        )}
 
         {/* Filters */}
         <TransactionFilters />
@@ -59,12 +90,14 @@ export default function TransactionsPage() {
         <TransactionTable transactions={filteredTransactions} onEdit={handleEdit} />
       </div>
 
-      {/* Modal */}
-      <TransactionModal
-        isOpen={isModalOpen}
-        onClose={handleClose}
-        editTransaction={editTarget}
-      />
+      {/* Modal — only rendered for Admin */}
+      {isAdmin && (
+        <TransactionModal
+          isOpen={isModalOpen}
+          onClose={handleClose}
+          editTransaction={editTarget}
+        />
+      )}
     </AppShell>
   );
 }

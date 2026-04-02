@@ -17,11 +17,9 @@ export default function SummaryCards({ totalBalance, totalIncome, totalExpenses 
       value: totalBalance,
       icon: DollarSign,
       gradient: 'from-indigo-500 to-purple-600',
-      shadowColor: 'shadow-indigo-500/20',
-      bgLight: 'bg-indigo-50',
-      bgDark: 'dark:bg-indigo-950/30',
-      textColor: 'text-indigo-600 dark:text-indigo-400',
+      shadowColor: 'hover:shadow-indigo-500/15 dark:hover:shadow-indigo-500/10',
       iconBg: 'bg-indigo-100 dark:bg-indigo-900/50',
+      textColor: 'text-indigo-600 dark:text-indigo-400',
     },
     {
       id: 'total-income',
@@ -29,11 +27,9 @@ export default function SummaryCards({ totalBalance, totalIncome, totalExpenses 
       value: totalIncome,
       icon: TrendingUp,
       gradient: 'from-emerald-500 to-teal-600',
-      shadowColor: 'shadow-emerald-500/20',
-      bgLight: 'bg-emerald-50',
-      bgDark: 'dark:bg-emerald-950/30',
-      textColor: 'text-emerald-600 dark:text-emerald-400',
+      shadowColor: 'hover:shadow-emerald-500/15 dark:hover:shadow-emerald-500/10',
       iconBg: 'bg-emerald-100 dark:bg-emerald-900/50',
+      textColor: 'text-emerald-600 dark:text-emerald-400',
     },
     {
       id: 'total-expenses',
@@ -41,11 +37,9 @@ export default function SummaryCards({ totalBalance, totalIncome, totalExpenses 
       value: totalExpenses,
       icon: TrendingDown,
       gradient: 'from-rose-500 to-pink-600',
-      shadowColor: 'shadow-rose-500/20',
-      bgLight: 'bg-rose-50',
-      bgDark: 'dark:bg-rose-950/30',
-      textColor: 'text-rose-600 dark:text-rose-400',
+      shadowColor: 'hover:shadow-rose-500/15 dark:hover:shadow-rose-500/10',
       iconBg: 'bg-rose-100 dark:bg-rose-900/50',
+      textColor: 'text-rose-600 dark:text-rose-400',
     },
   ];
 
@@ -57,7 +51,7 @@ export default function SummaryCards({ totalBalance, totalIncome, totalExpenses 
           <div
             key={card.id}
             className={cn(
-              'relative overflow-hidden rounded-2xl bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 p-6 transition-all duration-300 hover:shadow-xl hover:-translate-y-0.5',
+              'group relative overflow-hidden rounded-2xl bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 p-6 transition-all duration-300 hover:shadow-xl hover:-translate-y-1 cursor-default',
               card.shadowColor
             )}
             style={{ animationDelay: `${index * 100}ms` }}
@@ -74,7 +68,7 @@ export default function SummaryCards({ totalBalance, totalIncome, totalExpenses 
                   {formatCurrency(card.value)}
                 </p>
               </div>
-              <div className={cn('p-3 rounded-xl', card.iconBg)}>
+              <div className={cn('p-3 rounded-xl transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3', card.iconBg)}>
                 <Icon className={cn('h-6 w-6', card.textColor)} />
               </div>
             </div>
