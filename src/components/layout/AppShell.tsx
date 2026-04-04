@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Sidebar from './Sidebar';
 import TopNavbar from './TopNavbar';
@@ -8,23 +8,48 @@ import { useApp } from '@/context/AppContext';
 
 export default function AppShell({ children }: { children: React.ReactNode }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [rippleKey, setRippleKey] = useState(0);
   const { state } = useApp();
+
+  // Trigger ripple when transactions are added
+  useEffect(() => {
+    if (state.transactions.length > 0) {
+      setRippleKey(prev => prev + 1);
+    }
+  }, [state.transactions.length]);
 
   if (state.isLoading) {
     return <LoadingScreen />;
   }
 
   return (
-    <div className="flex h-screen overflow-hidden relative">
+    <div className="flex min-h-screen relative group/dashboard">
       {/* Animated gradient background */}
       <div className={`animated-bg ${!state.darkMode ? 'animated-bg-light' : ''}`} />
 
+      {/* Global Data Ripple */}
+      <AnimatePresence mode="popLayout">
+        {rippleKey > 1 && (
+          <motion.div
+            key={`ripple-${rippleKey}`}
+            className="fixed inset-0 z-20 pointer-events-none mix-blend-screen"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: [0, 0.15, 0] }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 1.5, ease: "easeOut" }}
+          >
+            <div className="absolute top-0 right-0 w-[800px] h-[800px] -mr-48 -mt-48 rounded-full bg-radial-gradient from-jade-500/20 to-transparent animate-ripple mix-blend-screen" 
+                 style={{ background: 'radial-gradient(circle, rgba(16, 185, 129, 0.4) 0%, transparent 60%)' }} />
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       {/* Content layer */}
-      <div className="flex h-screen overflow-hidden w-full relative z-10">
+      <div className="flex min-h-screen w-full relative z-10 focus-group">
         <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
-        <div className="flex flex-1 flex-col overflow-hidden">
+        <div className="flex flex-1 flex-col">
           <TopNavbar onMenuClick={() => setSidebarOpen(true)} />
-          <main className="flex-1 overflow-y-auto p-4 md:p-6 lg:p-8">
+          <main className="flex-1 p-4 md:p-6 lg:p-8">
             <AnimatePresence mode="wait">
               <motion.div
                 className="mx-auto max-w-7xl"

@@ -71,6 +71,8 @@ function MiniSparkline({ data, color }: { data: number[]; color: string }) {
   );
 }
 
+import MagneticCard from '@/components/ui/MagneticCard';
+
 export default function SummaryCards({ totalBalance, totalIncome, totalExpenses }: SummaryCardsProps) {
   const { state } = useApp();
 
@@ -150,44 +152,46 @@ export default function SummaryCards({ totalBalance, totalIncome, totalExpenses 
         return (
           <motion.div
             key={card.id}
-            className="group relative overflow-hidden rounded-2xl glass-card gradient-border hover-lift cursor-default"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: index * 0.1, duration: 0.4, ease: 'easeOut' }}
+            className="h-full"
           >
-            {/* Inner gradient glow */}
-            <div
-              className="absolute inset-0 opacity-40 group-hover:opacity-60 transition-opacity duration-500"
-              style={{
-                background: `radial-gradient(ellipse at 30% 50%, ${card.gradientFrom}, ${card.gradientTo})`,
-              }}
-            />
+            <MagneticCard className="group relative overflow-hidden glass-card gradient-border h-full cursor-default w-full">
+              {/* Inner gradient glow */}
+              <div
+                className="absolute inset-0 opacity-40 group-hover:opacity-60 transition-opacity duration-500"
+                style={{
+                  background: `radial-gradient(ellipse at 30% 50%, ${card.gradientFrom}, ${card.gradientTo})`,
+                }}
+              />
 
-            <div className="relative p-6">
-              <div className="flex items-start justify-between">
-                <div className="space-y-2">
-                  <p className="text-sm font-medium text-gray-400">
-                    {card.title}
-                  </p>
-                  <p className="text-2xl md:text-3xl font-bold text-white tracking-tight">
-                    <AnimatedNumber value={card.value} />
-                  </p>
-                </div>
-                <div className="flex flex-col items-end gap-3">
-                  <motion.div
-                    className={cn(
-                      'p-3 rounded-xl bg-white/5 border border-white/5 shadow-lg',
-                      card.iconGlow
-                    )}
-                    whileHover={{ scale: 1.1, rotate: 5 }}
-                    transition={{ type: 'spring', stiffness: 400, damping: 15 }}
-                  >
-                    <Icon className={cn('h-5 w-5', card.iconColor)} />
-                  </motion.div>
-                  <MiniSparkline data={card.sparkData} color={card.accentColor} />
+              <div className="relative p-6">
+                <div className="flex items-start justify-between">
+                  <div className="space-y-2">
+                    <p className="text-sm font-medium text-gray-400">
+                      {card.title}
+                    </p>
+                    <p className="text-2xl md:text-3xl font-bold text-white tracking-tight">
+                      <AnimatedNumber value={card.value} />
+                    </p>
+                  </div>
+                  <div className="flex flex-col items-end gap-3">
+                    <motion.div
+                      className={cn(
+                        'p-3 rounded-xl bg-white/5 border border-white/5 shadow-lg',
+                        card.iconGlow
+                      )}
+                      whileHover={{ scale: 1.1, rotate: 5 }}
+                      transition={{ type: 'spring', stiffness: 400, damping: 15 }}
+                    >
+                      <Icon className={cn('h-5 w-5', card.iconColor)} />
+                    </motion.div>
+                    <MiniSparkline data={card.sparkData} color={card.accentColor} />
+                  </div>
                 </div>
               </div>
-            </div>
+            </MagneticCard>
           </motion.div>
         );
       })}

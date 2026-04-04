@@ -10,42 +10,52 @@ interface RecentTransactionsProps {
   transactions: Transaction[];
 }
 
+import MagneticCard from '@/components/ui/MagneticCard';
+
 export default function RecentTransactions({ transactions }: RecentTransactionsProps) {
   if (transactions.length === 0) {
     return (
-      <div className="rounded-2xl glass-card p-6">
-        <h3 className="text-lg font-semibold text-white mb-4">
-          Recent Transactions
-        </h3>
-        <div className="flex h-48 items-center justify-center text-gray-400">
-          <div className="text-center">
-            <p className="text-lg mb-1">💰</p>
-            <p>No transactions yet</p>
-            <p className="text-sm mt-1">Add some to get started!</p>
+      <motion.div
+        className="h-full"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.4, delay: 0.4 }}
+      >
+        <MagneticCard className="rounded-2xl glass-card p-6 h-full w-full">
+          <h3 className="text-lg font-semibold text-white mb-4">
+            Recent Transactions
+          </h3>
+          <div className="flex h-48 items-center justify-center text-gray-400">
+            <div className="text-center">
+              <p className="text-lg mb-1">💰</p>
+              <p>No transactions yet</p>
+              <p className="text-sm mt-1">Add some to get started!</p>
+            </div>
           </div>
-        </div>
-      </div>
+        </MagneticCard>
+      </motion.div>
     );
   }
 
   return (
     <motion.div
-      className="rounded-2xl glass-card p-6 gradient-border hover-glow transition-all duration-300"
+      className="h-full"
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4, delay: 0.4 }}
     >
-      <div className="flex items-center justify-between mb-6">
-        <h3 className="text-lg font-semibold text-white">
-          Recent Transactions
-        </h3>
-        <Link
-          href="/transactions"
-          className="text-sm font-medium text-indigo-400 hover:text-indigo-300 transition-colors"
-        >
-          View all →
-        </Link>
-      </div>
+      <MagneticCard className="rounded-2xl glass-card p-6 gradient-border hover-glow transition-all duration-300 h-full w-full">
+        <div className="flex items-center justify-between mb-6">
+          <h3 className="text-lg font-semibold text-white">
+            Recent Transactions
+          </h3>
+          <Link
+            href="/transactions"
+            className="text-sm font-medium text-indigo-400 hover:text-indigo-300 transition-colors"
+          >
+            View all →
+          </Link>
+        </div>
 
       <div className="space-y-2">
         {transactions.map((t, index) => (
@@ -97,6 +107,7 @@ export default function RecentTransactions({ transactions }: RecentTransactionsP
           </motion.div>
         ))}
       </div>
+      </MagneticCard>
     </motion.div>
   );
 }

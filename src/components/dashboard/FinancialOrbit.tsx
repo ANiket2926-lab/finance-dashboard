@@ -9,15 +9,17 @@ interface FinancialOrbitProps {
   totalExpenses: number;
 }
 
+import MagneticCard from '@/components/ui/MagneticCard';
+
 export default function FinancialOrbit({ totalBalance, totalIncome, totalExpenses }: FinancialOrbitProps) {
   return (
     <motion.div
-      className="glass-card rounded-2xl p-6 relative overflow-hidden gradient-border"
       initial={{ opacity: 0, scale: 0.95 }}
       animate={{ opacity: 1, scale: 1 }}
       transition={{ duration: 0.5, ease: 'easeOut' }}
     >
-      <h3 className="text-sm font-medium text-gray-400 mb-2">Financial Orbit</h3>
+      <MagneticCard className="glass-card rounded-2xl p-6 relative overflow-hidden gradient-border w-full h-full">
+        <h3 className="text-sm font-medium text-gray-400 mb-2">Financial Orbit</h3>
 
       <div className="flex items-center justify-center py-4">
         <div className="relative" style={{ width: 280, height: 280 }}>
@@ -128,6 +130,7 @@ export default function FinancialOrbit({ totalBalance, totalIncome, totalExpense
           <span className="text-xs text-gray-400">Expense orbit</span>
         </div>
       </div>
+      </MagneticCard>
     </motion.div>
   );
 }
