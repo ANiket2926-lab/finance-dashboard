@@ -3,13 +3,13 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 :root {
-  --background: #fafaf9;
+  --background: #ffffff;
   --foreground: #1c1917;
 }
 
 .dark {
-  /* Obsidian Aurora: Deep charcoal with warm undertones */
-  --background: #09090b;
+  /* Obsidian Aurora: OLED pure black */
+  --background: #000000;
   --foreground: #f8fafc;
 }
 
@@ -29,37 +29,45 @@
   inset: 0;
   z-index: 0;
   overflow: hidden;
-  background: var(--background);
+  background: #ffffff;
+}
+
+.dark .animated-bg {
+  background: #000000;
 }
 
 .animated-bg-light {
-  background: var(--background) !important;
+  background: #ffffff !important;
 }
 
 /* ═══════════════════════════════════════════════════════════════════════
-   MATTE COMPONENTS - Solid Opaque Colors
+   MATTE COMPONENTS - Solid Colors & Shadows
    ═══════════════════════════════════════════════════════════════════════ */
 
-.glass-panel, .glass-card {
-  background: #18181b; /* Solid matte gray */
-  border: 1px solid #27272a;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-}
-
-.glass-panel-light, .glass-card-light {
+/* Light mode defaults (and fallback classes) */
+.glass-panel, .glass-card, .glass-panel-light, .glass-card-light {
   background: #ffffff; /* Solid matte white */
   border: 1px solid #e5e7eb;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.08), 0 8px 10px -6px rgba(0, 0, 0, 0.04);
 }
 
-.glass-sidebar {
-  background: #09090b; /* Solid matte charcoal to match background */
-  border-right: 1px solid #27272a;
+/* Dark mode overrides */
+.dark .glass-panel, .dark .glass-card {
+  background: #121212; /* Solid offset gray to contrast with OLED black bg */
+  border: 1px solid #27272a;
+  box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.7), 0 8px 10px -6px rgba(0, 0, 0, 0.5);
 }
 
-.glass-sidebar-light {
-  background: #fafaf9;
+.glass-sidebar, .glass-sidebar-light {
+  background: #ffffff;
   border-right: 1px solid #e5e7eb;
+  box-shadow: 4px 0 24px -5px rgba(0, 0, 0, 0.05);
+}
+
+.dark .glass-sidebar {
+  background: #000000; /* Match OLED background */
+  border-right: 1px solid #27272a;
+  box-shadow: 4px 0 24px -5px rgba(0, 0, 0, 0.5);
 }
 
 /* ═══════════════════════════════════════════════════════════════════════
