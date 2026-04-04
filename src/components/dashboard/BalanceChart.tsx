@@ -31,7 +31,7 @@ export default function BalanceChart({ data }: BalanceChartProps) {
         className="h-full"
       >
         <MagneticCard className="rounded-2xl glass-card p-6 h-full w-full">
-          <h3 className="text-lg font-semibold text-white mb-4">
+          <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
             Balance Over Time
           </h3>
           <div className="flex h-64 flex-col items-center justify-center text-center">
@@ -54,7 +54,7 @@ export default function BalanceChart({ data }: BalanceChartProps) {
       className="h-full"
     >
       <MagneticCard className="rounded-2xl glass-card p-6 gradient-border hover-glow transition-all duration-300 w-full h-full">
-        <h3 className="text-lg font-semibold text-white mb-6">
+        <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-6">
           Balance Over Time
         </h3>
         <div className="h-72">

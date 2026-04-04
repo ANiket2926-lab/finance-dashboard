@@ -40,7 +40,7 @@ export default function FinancialOrbit({ totalBalance, totalIncome, totalExpense
               <div className="absolute -inset-4 rounded-full bg-indigo-500/10 animate-pulse-glow" />
               <div className="relative flex flex-col items-center justify-center w-28 h-28 rounded-full bg-gradient-to-br from-indigo-500/20 to-purple-600/20 border border-indigo-500/20 backdrop-blur-sm">
                 <span className="text-[10px] font-medium text-gray-400 uppercase tracking-wider">Balance</span>
-                <span className="text-lg font-bold text-white mt-0.5">{formatCurrency(totalBalance)}</span>
+                <span className="text-lg font-bold text-gray-900 dark:text-white mt-0.5">{formatCurrency(totalBalance)}</span>
               </div>
             </div>
           </motion.div>
@@ -65,7 +65,7 @@ export default function FinancialOrbit({ totalBalance, totalIncome, totalExpense
                   </div>
                   {/* Tooltip */}
                   <div className="absolute -bottom-8 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
-                    <div className="px-2 py-1 rounded-lg bg-gray-900/90 text-[10px] text-white whitespace-nowrap border border-white/10">
+                    <div className="px-2 py-1 rounded-lg bg-white/90 dark:bg-gray-900/90 text-[10px] text-gray-900 dark:text-white whitespace-nowrap border border-gray-200 dark:border-white/10 shadow-sm">
                       {formatCurrency(totalIncome)}
                     </div>
                   </div>
@@ -93,7 +93,7 @@ export default function FinancialOrbit({ totalBalance, totalIncome, totalExpense
                     <span className="text-[9px] font-bold text-rose-300">{(totalExpenses / 1000).toFixed(0)}k</span>
                   </div>
                   <div className="absolute -bottom-8 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
-                    <div className="px-2 py-1 rounded-lg bg-gray-900/90 text-[10px] text-white whitespace-nowrap border border-white/10">
+                    <div className="px-2 py-1 rounded-lg bg-white/90 dark:bg-gray-900/90 text-[10px] text-gray-900 dark:text-white whitespace-nowrap border border-gray-200 dark:border-white/10 shadow-sm">
                       {formatCurrency(totalExpenses)}
                     </div>
                   </div>

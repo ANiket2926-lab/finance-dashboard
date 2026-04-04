@@ -22,7 +22,7 @@ export default function RecentTransactions({ transactions }: RecentTransactionsP
         transition={{ duration: 0.4, delay: 0.4 }}
       >
         <MagneticCard className="rounded-2xl glass-card p-6 h-full w-full">
-          <h3 className="text-lg font-semibold text-white mb-4">
+          <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
             Recent Transactions
           </h3>
           <div className="flex h-48 items-center justify-center text-gray-400">
@@ -46,7 +46,7 @@ export default function RecentTransactions({ transactions }: RecentTransactionsP
     >
       <MagneticCard className="rounded-2xl glass-card p-6 gradient-border hover-glow transition-all duration-300 h-full w-full">
         <div className="flex items-center justify-between mb-6">
-          <h3 className="text-lg font-semibold text-white">
+          <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
             Recent Transactions
           </h3>
           <Link
@@ -86,7 +86,7 @@ export default function RecentTransactions({ transactions }: RecentTransactionsP
 
             {/* Info */}
             <div className="flex-1 min-w-0">
-              <p className="text-sm font-medium text-gray-200 truncate">
+              <p className="text-sm font-medium text-gray-900 dark:text-gray-200 truncate">
                 {t.description}
               </p>
               <p className="text-xs text-gray-500">

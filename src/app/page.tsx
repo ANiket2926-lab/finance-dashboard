@@ -52,10 +52,10 @@ export default function DashboardPage() {
           transition={{ duration: 0.4 }}
           style={{ opacity: opacityTop, scale: scaleTop, y: yTop }}
         >
-          <h1 className="text-2xl md:text-3xl font-bold text-white tracking-tight">
+          <h1 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white tracking-tight">
             Dashboard
           </h1>
-          <p className="text-sm text-gray-500 mt-1">
+          <p className="text-sm text-gray-600 dark:text-gray-500 mt-1">
             Welcome back! Here&apos;s your financial overview.
           </p>
         </motion.div>

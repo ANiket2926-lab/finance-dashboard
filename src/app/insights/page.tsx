@@ -39,12 +39,14 @@ export default function InsightsPage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4 }}
         >
-          <h1 className="text-2xl md:text-3xl font-bold text-white tracking-tight">
-            Insights
-          </h1>
-          <p className="text-sm text-gray-500 mt-1">
-            Financial analytics and smart insights.
-          </p>
+          <div className="mb-8">
+            <h1 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white tracking-tight">
+              Financial Insights
+            </h1>
+            <p className="text-sm text-gray-600 dark:text-gray-500 mt-1">
+              Financial analytics and smart insights.
+            </p>
+          </div>
         </motion.div>
 
         {/* Insight Cards */}
@@ -54,9 +56,9 @@ export default function InsightsPage() {
 
         {/* Income vs Expenses Chart */}
         <motion.div custom={2} variants={sectionVariants} initial="hidden" animate="visible">
-          <div className="rounded-2xl glass-card p-6 gradient-border hover-glow transition-all duration-300">
-            <h3 className="text-lg font-semibold text-white mb-6">
-              Income vs Expenses
+          <div className="rounded-2xl glass-card gradient-border p-6 h-full">
+            <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-6">
+              Cash Flow Trend
             </h3>
             {monthlyData.length > 0 ? (
               <div className="h-80">
@@ -137,7 +139,7 @@ export default function InsightsPage() {
         {/* Category Breakdown */}
         <motion.div custom={3} variants={sectionVariants} initial="hidden" animate="visible">
           <div className="rounded-2xl glass-card p-6 gradient-border hover-glow transition-all duration-300">
-            <h3 className="text-lg font-semibold text-white mb-6">
+            <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-6">
               Spending Breakdown
             </h3>
             {categorySpending.length > 0 ? (

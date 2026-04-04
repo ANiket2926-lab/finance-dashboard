@@ -39,10 +39,10 @@ export default function TransactionsPage() {
             transition={{ duration: 0.4 }}
           >
             <div>
-              <h1 className="text-2xl md:text-3xl font-bold text-white tracking-tight">
+              <h1 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white tracking-tight">
                 Transactions
               </h1>
-              <p className="text-sm text-gray-500 mt-1">
+              <p className="text-sm text-gray-600 dark:text-gray-500 mt-1">
                 {filteredTransactions.length} transaction{filteredTransactions.length !== 1 ? 's' : ''} found
               </p>
             </div>
@@ -73,7 +73,7 @@ export default function TransactionsPage() {
 
               {/* Viewer tooltip */}
               {!isAdmin && (
-                <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-3 py-1.5 rounded-lg bg-gray-900 border border-white/10 text-white text-xs font-medium whitespace-nowrap opacity-0 group-hover/add:opacity-100 transition-opacity duration-200 pointer-events-none shadow-lg z-10 backdrop-blur-sm">
+                <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-3 py-1.5 rounded-lg bg-white dark:bg-gray-900 border border-gray-200 dark:border-white/10 text-gray-900 dark:text-white text-xs font-medium whitespace-nowrap opacity-0 group-hover/add:opacity-100 transition-opacity duration-200 pointer-events-none shadow-lg z-10 backdrop-blur-sm">
                   Switch to Admin to modify transactions
                 </div>
               )}

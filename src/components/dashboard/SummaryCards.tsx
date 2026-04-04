@@ -172,7 +172,7 @@ export default function SummaryCards({ totalBalance, totalIncome, totalExpenses 
                     <p className="text-sm font-medium text-gray-400">
                       {card.title}
                     </p>
-                    <p className="text-2xl md:text-3xl font-bold text-white tracking-tight">
+                    <p className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white tracking-tight">
                       <AnimatedNumber value={card.value} />
                     </p>
                   </div>

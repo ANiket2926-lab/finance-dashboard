@@ -22,7 +22,7 @@ export default function SpendingPieChart({ data }: SpendingPieChartProps) {
         className="h-full"
       >
         <MagneticCard className="rounded-2xl glass-card p-6 h-full w-full">
-          <h3 className="text-lg font-semibold text-white mb-4">
+          <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
             Spending by Category
           </h3>
           <div className="flex h-64 flex-col items-center justify-center text-center">
@@ -48,7 +48,7 @@ export default function SpendingPieChart({ data }: SpendingPieChartProps) {
       className="h-full"
     >
       <MagneticCard className="rounded-2xl glass-card p-6 gradient-border hover-glow transition-all duration-300 w-full h-full">
-        <h3 className="text-lg font-semibold text-white mb-6">
+        <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-6">
           Spending by Category
         </h3>
         <div className="flex flex-col md:flex-row items-center gap-6">
@@ -119,9 +119,9 @@ export default function SpendingPieChart({ data }: SpendingPieChartProps) {
                         className="w-3 h-3 rounded-full transition-transform duration-300 group-hover:scale-150"
                         style={{ backgroundColor: COLORS[index % COLORS.length], boxShadow: `0 0 10px ${COLORS[index % COLORS.length]}80` }}
                       />
-                      <span className="text-sm text-gray-300 font-medium group-hover:text-white transition-colors">{item.name}</span>
+                      <span className="text-sm text-gray-600 dark:text-gray-300 font-medium group-hover:text-gray-900 dark:group-hover:text-white transition-colors">{item.name}</span>
                     </div>
-                    <span className="text-sm font-semibold text-white">
+                    <span className="text-sm font-semibold text-gray-900 dark:text-white">
                       {formatCurrency(item.value)}
                     </span>
                   </motion.li>

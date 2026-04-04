@@ -166,17 +166,11 @@
 }
 
 /* ═══════════════════════════════════════════════════════════════════════
-   FOCUS MODE (Hover Isolation)
+   FOCUS MODE (Hover animations)
    ═══════════════════════════════════════════════════════════════════════ */
 
-.focus-group:hover .focus-item:not(:hover) {
-  opacity: 0.4;
-  filter: blur(4px) saturate(80%);
-  transform: scale(0.98);
-}
-
 .focus-item {
-  transition: opacity 0.4s ease, filter 0.4s ease, transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease;
 }
 
 .focus-item:hover {
