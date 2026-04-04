@@ -1,7 +1,8 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { X } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { X, AlertCircle } from 'lucide-react';
 import { Transaction, TransactionType, Category } from '@/types';
 import { useApp } from '@/context/AppContext';
 import { generateId, cn } from '@/utils';
@@ -76,162 +77,194 @@ export default function TransactionModal({
     onClose();
   };
 
-  if (!isOpen) return null;
-
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-      {/* Backdrop */}
-      <div
-        className="absolute inset-0 bg-black/50 backdrop-blur-sm animate-fade-in"
-        onClick={onClose}
-      />
-
-      {/* Modal */}
-      <div className="relative w-full max-w-lg bg-white dark:bg-gray-900 rounded-2xl border border-gray-200 dark:border-gray-800 shadow-2xl animate-scale-in">
-        {/* Header */}
-        <div className="flex items-center justify-between p-6 border-b border-gray-200 dark:border-gray-800">
-          <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100">
-            {editTransaction ? 'Edit Transaction' : 'New Transaction'}
-          </h2>
-          <button
+    <AnimatePresence>
+      {isOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+          {/* Backdrop */}
+          <motion.div
+            className="absolute inset-0 bg-black/60 backdrop-blur-md"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
             onClick={onClose}
-            className="p-2 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+          />
+
+          {/* Modal */}
+          <motion.div
+            className="relative w-full max-w-lg glass-card rounded-2xl border border-white/10 shadow-2xl"
+            initial={{ opacity: 0, scale: 0.95, y: 20 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.95, y: 20 }}
+            transition={{ type: 'spring', damping: 25, stiffness: 300 }}
           >
-            <X className="h-5 w-5 text-gray-500" />
-          </button>
-        </div>
-
-        {/* Form */}
-        <form onSubmit={handleSubmit} className="p-6 space-y-5">
-          {/* Description */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">
-              Description
-            </label>
-            <input
-              type="text"
-              value={formData.description}
-              onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-              placeholder="e.g. Grocery shopping"
-              className={cn(
-                'w-full px-4 py-2.5 rounded-xl border bg-white dark:bg-gray-800 text-sm text-gray-900 dark:text-gray-100 placeholder-gray-400 focus:outline-none focus:ring-2 transition-all',
-                errors.description
-                  ? 'border-rose-300 dark:border-rose-700 focus:ring-rose-500/50'
-                  : 'border-gray-200 dark:border-gray-700 focus:ring-indigo-500/50 focus:border-indigo-500'
-              )}
-            />
-            {errors.description && (
-              <p className="text-xs text-rose-500 mt-1">{errors.description}</p>
-            )}
-          </div>
-
-          {/* Amount & Date */}
-          <div className="grid grid-cols-2 gap-4">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">
-                Amount ($)
-              </label>
-              <input
-                type="number"
-                step="0.01"
-                min="0"
-                value={formData.amount}
-                onChange={(e) => setFormData({ ...formData, amount: e.target.value })}
-                placeholder="0.00"
-                className={cn(
-                  'w-full px-4 py-2.5 rounded-xl border bg-white dark:bg-gray-800 text-sm text-gray-900 dark:text-gray-100 placeholder-gray-400 focus:outline-none focus:ring-2 transition-all',
-                  errors.amount
-                    ? 'border-rose-300 dark:border-rose-700 focus:ring-rose-500/50'
-                    : 'border-gray-200 dark:border-gray-700 focus:ring-indigo-500/50 focus:border-indigo-500'
-                )}
-              />
-              {errors.amount && (
-                <p className="text-xs text-rose-500 mt-1">{errors.amount}</p>
-              )}
+            {/* Header */}
+            <div className="flex items-center justify-between p-6 border-b border-white/5">
+              <h2 className="text-lg font-semibold text-white">
+                {editTransaction ? 'Edit Transaction' : 'New Transaction'}
+              </h2>
+              <motion.button
+                onClick={onClose}
+                className="p-2 rounded-xl bg-white/5 hover:bg-white/10 transition-colors border border-transparent hover:border-white/10"
+                whileTap={{ scale: 0.9 }}
+              >
+                <X className="h-5 w-5 text-gray-400" />
+              </motion.button>
             </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">
-                Date
-              </label>
-              <input
-                type="date"
-                value={formData.date}
-                onChange={(e) => setFormData({ ...formData, date: e.target.value })}
-                className={cn(
-                  'w-full px-4 py-2.5 rounded-xl border bg-white dark:bg-gray-800 text-sm text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 transition-all',
-                  errors.date
-                    ? 'border-rose-300 dark:border-rose-700 focus:ring-rose-500/50'
-                    : 'border-gray-200 dark:border-gray-700 focus:ring-indigo-500/50 focus:border-indigo-500'
-                )}
-              />
-              {errors.date && (
-                <p className="text-xs text-rose-500 mt-1">{errors.date}</p>
-              )}
-            </div>
-          </div>
 
-          {/* Type */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">
-              Type
-            </label>
-            <div className="grid grid-cols-2 gap-3">
-              {(['income', 'expense'] as TransactionType[]).map((type) => (
-                <button
-                  key={type}
-                  type="button"
-                  onClick={() => setFormData({ ...formData, type })}
+            {/* Form */}
+            <form onSubmit={handleSubmit} className="p-6 space-y-5">
+              {/* Description */}
+              <div>
+                <label className="block text-sm font-medium text-gray-300 mb-1.5">
+                  Description
+                </label>
+                <input
+                  type="text"
+                  value={formData.description}
+                  onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                  placeholder="e.g. Grocery shopping"
                   className={cn(
-                    'px-4 py-2.5 rounded-xl text-sm font-medium border-2 transition-all duration-200',
-                    formData.type === type
-                      ? type === 'income'
-                        ? 'border-emerald-500 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-700 dark:text-emerald-400'
-                        : 'border-rose-500 bg-rose-50 dark:bg-rose-900/20 text-rose-700 dark:text-rose-400'
-                      : 'border-gray-200 dark:border-gray-700 text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800'
+                    'w-full px-4 py-2.5 rounded-xl border bg-white/5 text-sm text-gray-200 placeholder-gray-500 focus:outline-none focus:ring-1 transition-all shadow-inner',
+                    errors.description
+                      ? 'border-rose-500/50 bg-rose-500/5 focus:ring-rose-500/50'
+                      : 'border-white/10 focus:ring-indigo-500/50 focus:border-indigo-500 focus:bg-white/10'
                   )}
+                />
+                {errors.description && (
+                  <motion.p initial={{ opacity: 0, y: -5 }} animate={{ opacity: 1, y: 0 }} className="flex items-center gap-1.5 text-xs text-rose-400 mt-2">
+                    <AlertCircle className="h-3 w-3" /> {errors.description}
+                  </motion.p>
+                )}
+              </div>
+
+              {/* Amount & Date */}
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-300 mb-1.5">
+                    Amount ($)
+                  </label>
+                  <input
+                    type="number"
+                    step="0.01"
+                    min="0"
+                    value={formData.amount}
+                    onChange={(e) => setFormData({ ...formData, amount: e.target.value })}
+                    placeholder="0.00"
+                    className={cn(
+                      'w-full px-4 py-2.5 rounded-xl border bg-white/5 text-sm text-gray-200 placeholder-gray-500 focus:outline-none focus:ring-1 transition-all shadow-inner',
+                      errors.amount
+                        ? 'border-rose-500/50 bg-rose-500/5 focus:ring-rose-500/50'
+                        : 'border-white/10 focus:ring-indigo-500/50 focus:border-indigo-500 focus:bg-white/10'
+                    )}
+                  />
+                  {errors.amount && (
+                    <motion.p initial={{ opacity: 0, y: -5 }} animate={{ opacity: 1, y: 0 }} className="flex items-center gap-1.5 text-xs text-rose-400 mt-2">
+                      <AlertCircle className="h-3 w-3" /> {errors.amount}
+                    </motion.p>
+                  )}
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-300 mb-1.5">
+                    Date
+                  </label>
+                  <input
+                    type="date"
+                    value={formData.date}
+                    onChange={(e) => setFormData({ ...formData, date: e.target.value })}
+                    className={cn(
+                      'w-full px-4 py-2.5 rounded-xl border bg-white/5 text-sm text-gray-200 focus:outline-none focus:ring-1 transition-all shadow-inner',
+                      errors.date
+                        ? 'border-rose-500/50 bg-rose-500/5 focus:ring-rose-500/50'
+                        : 'border-white/10 focus:ring-indigo-500/50 focus:border-indigo-500 focus:bg-white/10'
+                    )}
+                    style={{ colorScheme: 'dark' }}
+                  />
+                  {errors.date && (
+                    <motion.p initial={{ opacity: 0, y: -5 }} animate={{ opacity: 1, y: 0 }} className="flex items-center gap-1.5 text-xs text-rose-400 mt-2">
+                      <AlertCircle className="h-3 w-3" /> {errors.date}
+                    </motion.p>
+                  )}
+                </div>
+              </div>
+
+              {/* Type */}
+              <div>
+                <label className="block text-sm font-medium text-gray-300 mb-1.5">
+                  Type
+                </label>
+                <div className="grid grid-cols-2 gap-3 p-1 rounded-xl bg-white/5 border border-white/10">
+                  {(['income', 'expense'] as TransactionType[]).map((type) => (
+                    <button
+                      key={type}
+                      type="button"
+                      onClick={() => setFormData({ ...formData, type })}
+                      className={cn(
+                        'relative px-4 py-2 rounded-lg text-sm font-medium transition-colors duration-200',
+                        formData.type === type
+                          ? type === 'income' ? 'text-emerald-400' : 'text-rose-400'
+                          : 'text-gray-400 hover:text-gray-200'
+                      )}
+                    >
+                      {formData.type === type && (
+                        <motion.div
+                          layoutId="typeTabs"
+                          className={cn(
+                            'absolute inset-0 rounded-lg border shadow-sm',
+                            type === 'income'
+                              ? 'bg-emerald-500/10 border-emerald-500/20'
+                              : 'bg-rose-500/10 border-rose-500/20'
+                          )}
+                          transition={{ type: 'spring', stiffness: 300, damping: 25 }}
+                        />
+                      )}
+                      <span className="relative z-10 flex items-center justify-center gap-2">
+                        {type === 'income' ? '↑ Income' : '↓ Expense'}
+                      </span>
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Category */}
+              <div>
+                <label className="block text-sm font-medium text-gray-300 mb-1.5">
+                  Category
+                </label>
+                <select
+                  value={formData.category}
+                  onChange={(e) => setFormData({ ...formData, category: e.target.value as Category })}
+                  className="w-full px-4 py-2.5 rounded-xl border border-white/10 bg-gray-900 text-sm text-gray-200 focus:outline-none focus:ring-1 focus:ring-indigo-500/50 focus:border-indigo-500 transition-all shadow-inner"
                 >
-                  {type === 'income' ? '↑ Income' : '↓ Expense'}
+                  {CATEGORIES.map((cat) => (
+                    <option key={cat} value={cat}>
+                      {cat}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              {/* Actions */}
+              <div className="flex items-center justify-end gap-3 pt-4 border-t border-white/5">
+                <button
+                  type="button"
+                  onClick={onClose}
+                  className="px-5 py-2.5 rounded-xl text-sm font-medium text-gray-400 hover:text-gray-200 hover:bg-white/10 transition-colors"
+                >
+                  Cancel
                 </button>
-              ))}
-            </div>
-          </div>
-
-          {/* Category */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">
-              Category
-            </label>
-            <select
-              value={formData.category}
-              onChange={(e) => setFormData({ ...formData, category: e.target.value as Category })}
-              className="w-full px-4 py-2.5 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-sm text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 transition-all"
-            >
-              {CATEGORIES.map((cat) => (
-                <option key={cat} value={cat}>
-                  {cat}
-                </option>
-              ))}
-            </select>
-          </div>
-
-          {/* Actions */}
-          <div className="flex items-center justify-end gap-3 pt-2">
-            <button
-              type="button"
-              onClick={onClose}
-              className="px-5 py-2.5 rounded-xl text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
-            >
-              Cancel
-            </button>
-            <button
-              type="submit"
-              className="px-5 py-2.5 rounded-xl text-sm font-medium text-white bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 shadow-lg shadow-indigo-500/25 hover:shadow-indigo-500/40 transition-all duration-200"
-            >
-              {editTransaction ? 'Save Changes' : 'Add Transaction'}
-            </button>
-          </div>
-        </form>
-      </div>
-    </div>
+                <motion.button
+                  type="submit"
+                  whileTap={{ scale: 0.95 }}
+                  className="px-5 py-2.5 rounded-xl text-sm font-medium text-white bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-400 hover:to-purple-500 shadow-lg shadow-indigo-500/20 hover:shadow-indigo-500/40 transition-all"
+                >
+                  {editTransaction ? 'Save Changes' : 'Add Transaction'}
+                </motion.button>
+              </div>
+            </form>
+          </motion.div>
+        </div>
+      )}
+    </AnimatePresence>
   );
 }

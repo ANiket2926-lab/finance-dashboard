@@ -1,5 +1,6 @@
 'use client';
 
+import { motion } from 'framer-motion';
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from 'recharts';
 import { PieChart as PieChartIcon } from 'lucide-react';
 import { CategorySpending } from '@/types';
@@ -12,26 +13,36 @@ interface SpendingPieChartProps {
 export default function SpendingPieChart({ data }: SpendingPieChartProps) {
   if (data.length === 0) {
     return (
-      <div className="rounded-2xl bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 p-6 h-full">
-        <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">
+      <motion.div
+        className="rounded-2xl glass-card p-6 h-full"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.4, delay: 0.3 }}
+      >
+        <h3 className="text-lg font-semibold text-white mb-4">
           Spending by Category
         </h3>
         <div className="flex h-64 flex-col items-center justify-center text-center">
-          <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-gray-100 dark:bg-gray-800 mb-3">
-            <PieChartIcon className="h-7 w-7 text-gray-400 dark:text-gray-500" />
+          <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-white/5 mb-3">
+            <PieChartIcon className="h-7 w-7 text-gray-500" />
           </div>
-          <p className="text-sm font-medium text-gray-500 dark:text-gray-400">No expense data yet</p>
-          <p className="text-xs text-gray-400 dark:text-gray-500 mt-1">Expense categories will appear here.</p>
+          <p className="text-sm font-medium text-gray-400">No expense data yet</p>
+          <p className="text-xs text-gray-500 mt-1">Expense categories will appear here.</p>
         </div>
-      </div>
+      </motion.div>
     );
   }
 
   const total = data.reduce((sum, d) => sum + d.value, 0);
 
   return (
-    <div className="rounded-2xl bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 p-6 transition-all duration-300 hover:shadow-lg">
-      <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-6">
+    <motion.div
+      className="rounded-2xl glass-card p-6 gradient-border hover-glow transition-all duration-300"
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.4, delay: 0.3 }}
+    >
+      <h3 className="text-lg font-semibold text-white mb-6">
         Spending by Category
       </h3>
       <div className="flex flex-col md:flex-row items-center gap-6">
@@ -48,18 +59,28 @@ export default function SpendingPieChart({ data }: SpendingPieChartProps) {
                 paddingAngle={3}
                 dataKey="value"
                 stroke="none"
+                animationDuration={1200}
+                animationEasing="ease-out"
               >
                 {data.map((entry, index) => (
-                  <Cell key={`cell-${index}`} fill={entry.color} />
+                  <Cell
+                    key={`cell-${index}`}
+                    fill={entry.color}
+                    style={{
+                      filter: `drop-shadow(0 0 6px ${entry.color}40)`,
+                      cursor: 'pointer',
+                    }}
+                  />
                 ))}
               </Pie>
               <Tooltip
                 contentStyle={{
-                  backgroundColor: 'rgba(17, 24, 39, 0.95)',
-                  border: 'none',
+                  background: 'rgba(15, 23, 42, 0.9)',
+                  backdropFilter: 'blur(16px)',
+                  border: '1px solid rgba(255,255,255,0.1)',
                   borderRadius: '12px',
                   padding: '10px 14px',
-                  boxShadow: '0 20px 40px rgba(0,0,0,0.3)',
+                  boxShadow: '0 20px 40px rgba(0,0,0,0.4)',
                 }}
                 itemStyle={{ color: '#e5e7eb' }}
                 formatter={(value) => [formatCurrency(Number(value)), '']}
@@ -70,27 +91,33 @@ export default function SpendingPieChart({ data }: SpendingPieChartProps) {
 
         {/* Legend */}
         <div className="flex-1 grid grid-cols-2 gap-2 w-full">
-          {data.slice(0, 6).map((item) => (
-            <div
+          {data.slice(0, 6).map((item, index) => (
+            <motion.div
               key={item.name}
-              className="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors cursor-default"
+              className="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-white/5 transition-all cursor-default group"
+              initial={{ opacity: 0, x: 10 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.5 + index * 0.05 }}
             >
               <div
-                className="h-3 w-3 rounded-full flex-shrink-0 transition-transform hover:scale-125"
-                style={{ backgroundColor: item.color }}
+                className="h-3 w-3 rounded-full flex-shrink-0 transition-transform group-hover:scale-150"
+                style={{
+                  backgroundColor: item.color,
+                  boxShadow: `0 0 8px ${item.color}40`,
+                }}
               />
               <div className="min-w-0 flex-1">
-                <p className="text-xs text-gray-500 dark:text-gray-400 truncate">
+                <p className="text-xs text-gray-400 truncate">
                   {item.name}
                 </p>
-                <p className="text-sm font-semibold text-gray-900 dark:text-gray-100">
+                <p className="text-sm font-semibold text-gray-200">
                   {((item.value / total) * 100).toFixed(0)}%
                 </p>
               </div>
-            </div>
+            </motion.div>
           ))}
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 }

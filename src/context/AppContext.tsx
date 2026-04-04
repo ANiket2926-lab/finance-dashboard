@@ -25,7 +25,7 @@ const initialState: AppState = {
   transactions: [],
   role: 'admin',
   filters: initialFilters,
-  darkMode: false,
+  darkMode: true,
   isLoading: true,
 };
 

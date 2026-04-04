@@ -1,5 +1,6 @@
 'use client';
 
+import { motion } from 'framer-motion';
 import { ArrowUpRight, ArrowDownRight } from 'lucide-react';
 import { Transaction } from '@/types';
 import { formatCurrency, formatDate, cn } from '@/utils';
@@ -12,8 +13,8 @@ interface RecentTransactionsProps {
 export default function RecentTransactions({ transactions }: RecentTransactionsProps) {
   if (transactions.length === 0) {
     return (
-      <div className="rounded-2xl bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 p-6">
-        <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">
+      <div className="rounded-2xl glass-card p-6">
+        <h3 className="text-lg font-semibold text-white mb-4">
           Recent Transactions
         </h3>
         <div className="flex h-48 items-center justify-center text-gray-400">
@@ -28,48 +29,57 @@ export default function RecentTransactions({ transactions }: RecentTransactionsP
   }
 
   return (
-    <div className="rounded-2xl bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 p-6 transition-all duration-300 hover:shadow-lg">
+    <motion.div
+      className="rounded-2xl glass-card p-6 gradient-border hover-glow transition-all duration-300"
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.4, delay: 0.4 }}
+    >
       <div className="flex items-center justify-between mb-6">
-        <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100">
+        <h3 className="text-lg font-semibold text-white">
           Recent Transactions
         </h3>
         <Link
           href="/transactions"
-          className="text-sm font-medium text-indigo-600 dark:text-indigo-400 hover:text-indigo-700 dark:hover:text-indigo-300 transition-colors"
+          className="text-sm font-medium text-indigo-400 hover:text-indigo-300 transition-colors"
         >
           View all →
         </Link>
       </div>
 
-      <div className="space-y-3">
+      <div className="space-y-2">
         {transactions.map((t, index) => (
-          <div
+          <motion.div
             key={t.id}
-            className="flex items-center gap-4 p-3 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-all duration-200 group"
-            style={{ animationDelay: `${index * 50}ms` }}
+            className="flex items-center gap-4 p-3 rounded-xl row-hover-glow transition-all duration-200 group"
+            initial={{ opacity: 0, x: -10 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.5 + index * 0.06, duration: 0.3 }}
           >
             {/* Icon */}
-            <div
+            <motion.div
               className={cn(
-                'flex h-10 w-10 items-center justify-center rounded-xl transition-transform group-hover:scale-110',
+                'flex h-10 w-10 items-center justify-center rounded-xl',
                 t.type === 'income'
-                  ? 'bg-emerald-100 dark:bg-emerald-900/30'
-                  : 'bg-rose-100 dark:bg-rose-900/30'
+                  ? 'bg-emerald-500/10 border border-emerald-500/10'
+                  : 'bg-rose-500/10 border border-rose-500/10'
               )}
+              whileHover={{ scale: 1.1, rotate: 5 }}
+              transition={{ type: 'spring', stiffness: 400, damping: 15 }}
             >
               {t.type === 'income' ? (
-                <ArrowUpRight className="h-5 w-5 text-emerald-600 dark:text-emerald-400" />
+                <ArrowUpRight className="h-5 w-5 text-emerald-400" />
               ) : (
-                <ArrowDownRight className="h-5 w-5 text-rose-600 dark:text-rose-400" />
+                <ArrowDownRight className="h-5 w-5 text-rose-400" />
               )}
-            </div>
+            </motion.div>
 
             {/* Info */}
             <div className="flex-1 min-w-0">
-              <p className="text-sm font-medium text-gray-900 dark:text-gray-100 truncate">
+              <p className="text-sm font-medium text-gray-200 truncate">
                 {t.description}
               </p>
-              <p className="text-xs text-gray-500 dark:text-gray-400">
+              <p className="text-xs text-gray-500">
                 {t.category} · {formatDate(t.date)}
               </p>
             </div>
@@ -78,17 +88,15 @@ export default function RecentTransactions({ transactions }: RecentTransactionsP
             <span
               className={cn(
                 'text-sm font-bold whitespace-nowrap',
-                t.type === 'income'
-                  ? 'text-emerald-600 dark:text-emerald-400'
-                  : 'text-rose-600 dark:text-rose-400'
+                t.type === 'income' ? 'text-emerald-400' : 'text-rose-400'
               )}
             >
               {t.type === 'income' ? '+' : '-'}
               {formatCurrency(t.amount)}
             </span>
-          </div>
+          </motion.div>
         ))}
       </div>
-    </div>
+    </motion.div>
   );
 }
