@@ -21,7 +21,7 @@
 }
 
 /* ═══════════════════════════════════════════════════════════════════════
-   OBSIDIAN AURORA ANIMATED BACKGROUND
+   MATTE FINISH BACKGROUND
    ═══════════════════════════════════════════════════════════════════════ */
 
 .animated-bg {
@@ -29,140 +29,49 @@
   inset: 0;
   z-index: 0;
   overflow: hidden;
-  background: #09090b;
-}
-
-/* Slow drifting ambient gradient using Jade, Coral, Lavender */
-.animated-bg::before {
-  content: '';
-  position: absolute;
-  inset: -50%;
-  width: 200%;
-  height: 200%;
-  background: radial-gradient(
-    ellipse at 20% 50%,
-    rgba(16, 185, 129, 0.08) 0%, /* Jade */
-    transparent 50%
-  ),
-  radial-gradient(
-    ellipse at 80% 20%,
-    rgba(139, 92, 246, 0.1) 0%, /* Lavender */
-    transparent 50%
-  ),
-  radial-gradient(
-    ellipse at 40% 80%,
-    rgba(244, 63, 94, 0.06) 0%, /* Coral */
-    transparent 50%
-  ),
-  radial-gradient(
-    ellipse at 70% 60%,
-    rgba(168, 85, 247, 0.05) 0%,
-    transparent 50%
-  );
-  animation: aurora-drift 25s ease-in-out infinite alternate;
+  background: var(--background);
 }
 
 .animated-bg-light {
-  background: #fafaf9 !important;
-}
-
-.animated-bg-light::before {
-  background: radial-gradient(
-    ellipse at 20% 50%,
-    rgba(16, 185, 129, 0.05) 0%,
-    transparent 50%
-  ),
-  radial-gradient(
-    ellipse at 80% 20%,
-    rgba(139, 92, 246, 0.05) 0%,
-    transparent 50%
-  ),
-  radial-gradient(
-    ellipse at 40% 80%,
-    rgba(244, 63, 94, 0.03) 0%,
-    transparent 50%
-  ) !important;
+  background: var(--background) !important;
 }
 
 /* ═══════════════════════════════════════════════════════════════════════
-   GLASSMORPHISM - Premium Adjustments
+   MATTE COMPONENTS - Solid Opaque Colors
    ═══════════════════════════════════════════════════════════════════════ */
 
-.glass-panel {
-  background: rgba(255, 255, 255, 0.02);
-  backdrop-filter: blur(28px) saturate(140%);
-  -webkit-backdrop-filter: blur(28px) saturate(140%);
-  border: 1px solid rgba(255, 255, 255, 0.04);
+.glass-panel, .glass-card {
+  background: #18181b; /* Solid matte gray */
+  border: 1px solid #27272a;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
 }
 
-.glass-panel-light {
-  background: rgba(255, 255, 255, 0.7);
-  backdrop-filter: blur(28px) saturate(140%);
-  -webkit-backdrop-filter: blur(28px) saturate(140%);
-  border: 1px solid rgba(0, 0, 0, 0.05);
-}
-
-.glass-card {
-  background: rgba(255, 255, 255, 0.025);
-  backdrop-filter: blur(24px) saturate(130%);
-  -webkit-backdrop-filter: blur(24px) saturate(130%);
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  box-shadow:
-    0 8px 32px rgba(0, 0, 0, 0.2),
-    inset 0 1px 0 rgba(255, 255, 255, 0.05);
-  transition: opacity 0.4s ease, filter 0.4s ease, transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
-}
-
-.glass-card-light {
-  background: rgba(255, 255, 255, 0.65);
-  backdrop-filter: blur(24px) saturate(130%);
-  -webkit-backdrop-filter: blur(24px) saturate(130%);
-  border: 1px solid rgba(0, 0, 0, 0.05);
-  box-shadow:
-    0 8px 32px rgba(0, 0, 0, 0.05),
-    inset 0 1px 0 rgba(255, 255, 255, 0.8);
-  transition: opacity 0.4s ease, filter 0.4s ease, transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+.glass-panel-light, .glass-card-light {
+  background: #ffffff; /* Solid matte white */
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
 }
 
 .glass-sidebar {
-  background: rgba(9, 9, 11, 0.4);
-  backdrop-filter: blur(40px) saturate(150%);
-  -webkit-backdrop-filter: blur(40px) saturate(150%);
-  border-right: 1px solid rgba(255, 255, 255, 0.04);
+  background: #09090b; /* Solid matte charcoal to match background */
+  border-right: 1px solid #27272a;
+}
+
+.glass-sidebar-light {
+  background: #fafaf9;
+  border-right: 1px solid #e5e7eb;
 }
 
 /* ═══════════════════════════════════════════════════════════════════════
-   GRADIENT BORDERS
+   BORDERS (Removed Gradient to keep Matte finish)
    ═══════════════════════════════════════════════════════════════════════ */
 
 .gradient-border {
   position: relative;
 }
 
-.gradient-border::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  padding: 1px;
-  background: linear-gradient(
-    135deg,
-    rgba(16, 185, 129, 0.4), /* Jade */
-    rgba(139, 92, 246, 0.3), /* Lavender */
-    rgba(244, 63, 94, 0.2),  /* Coral */
-    rgba(16, 185, 129, 0.1)
-  );
-  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-  -webkit-mask-composite: xor;
-  mask-composite: exclude;
-  pointer-events: none;
-  opacity: 0;
-  transition: opacity 0.5s ease;
-}
-
-.gradient-border:hover::before {
-  opacity: 1;
+.gradient-border:hover {
+  border-color: #52525b;
 }
 
 /* ═══════════════════════════════════════════════════════════════════════
