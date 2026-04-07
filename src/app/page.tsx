@@ -38,14 +38,14 @@ export default function DashboardPage() {
           transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
           className="flex flex-col md:flex-row md:items-end justify-between gap-6"
         >
-          <div style={{ opacity: opacityTop, scale: scaleTop }}>
+          <motion.div style={{ opacity: opacityTop, scale: scaleTop }}>
             <h1 className="text-3xl md:text-5xl font-bold tracking-tight text-gray-900 dark:text-white">
               Dashboard
             </h1>
             <p className="text-lg text-gray-500 dark:text-gray-400 mt-2 font-medium">
               Your financial ecosystem, refined.
             </p>
-          </div>
+          </motion.div>
 
           {/* Premium Tab Toggle */}
           <div className="flex p-1.5 bg-gray-100 dark:bg-white/5 rounded-full w-fit backdrop-blur-xl border border-gray-200 dark:border-white/10">

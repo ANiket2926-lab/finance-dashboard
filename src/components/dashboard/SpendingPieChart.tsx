@@ -73,8 +73,8 @@ export default function SpendingPieChart({ data }: SpendingPieChartProps) {
       <div className="relative flex-1 min-h-[320px]">
         <ResponsiveContainer width="100%" height="100%">
           <PieChart>
-            {/* @ts-ignore - Recharts 3.x type mismatch for activeIndex/activeShape */}
             <Pie
+              // @ts-expect-error - Recharts 3.x type mismatch for props
               activeIndex={activeIndex}
               activeShape={renderActiveShape}
               data={data}

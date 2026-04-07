@@ -59,7 +59,7 @@ export default function BalanceChart({ data }: BalanceChartProps) {
               dataKey="month" 
               axisLine={false} 
               tickLine={false} 
-              tick={{ fill: '#94a3b8', fontSize: 10, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em' }}
+              tick={{ fill: '#94a3b8', fontSize: 10, fontWeight: 700 }}
               dy={15}
             />
             <YAxis 
@@ -119,7 +119,7 @@ export default function BalanceChart({ data }: BalanceChartProps) {
               stroke="#007AFF" 
               strokeDasharray="8 8" 
               strokeOpacity={0.15}
-              label={{ position: 'right', value: 'High Value', fill: '#007AFF', fontSize: 10, fontWeight: 700, textTransform: 'uppercase', opacity: 0.5 }} 
+              label={{ position: 'right', value: 'High Value', fill: '#007AFF', fontSize: 10, fontWeight: 700, opacity: 0.5 }} 
             />
           </AreaChart>
         </ResponsiveContainer>

@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion';
 import { ShoppingCart, ShoppingBag, Coffee, Car, Home, Smartphone, Search, Filter, MoreVertical, CreditCard } from 'lucide-react';
 import { formatCurrency, formatDate } from '@/utils';
+import { Transaction } from '@/types';
 
 const CATEGORY_ICONS: Record<string, any> = {
   'Shopping': ShoppingBag,
@@ -26,15 +27,6 @@ const CATEGORY_COLORS: Record<string, string> = {
   'Health': 'bg-rose-500',
   'Salary': 'bg-emerald-500',
 };
-
-interface Transaction {
-  id: string;
-  name: string;
-  amount: number;
-  date: string;
-  category: string;
-  type: 'income' | 'expense';
-}
 
 interface RecentTransactionsProps {
   transactions: Transaction[];
@@ -77,7 +69,7 @@ export default function RecentTransactions({ transactions }: RecentTransactionsP
                     <Icon size={20} strokeWidth={2.5} />
                   </div>
                   <div>
-                    <h4 className="text-sm font-bold text-gray-900 dark:text-white group-hover/item:text-blue-500 transition-colors uppercase tracking-tight">{transaction.name}</h4>
+                    <h4 className="text-sm font-bold text-gray-900 dark:text-white group-hover/item:text-blue-500 transition-colors uppercase tracking-tight">{transaction.description}</h4>
                     <div className="flex items-center gap-2 mt-0.5">
                       <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">{transaction.category}</span>
                       <span className="w-1 h-1 rounded-full bg-gray-300 dark:bg-gray-700" />
