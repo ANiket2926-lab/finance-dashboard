@@ -1,7 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { TrendingUp, TrendingDown, Wallet, CreditCard, PieChart } from 'lucide-react';
+import { TrendingUp, TrendingDown, Wallet } from 'lucide-react';
 import { formatCurrency } from '@/utils';
 
 interface SummaryCardsProps {

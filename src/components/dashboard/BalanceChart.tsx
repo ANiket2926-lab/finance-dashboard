@@ -1,7 +1,7 @@
 'use client';
 
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, ReferenceLine } from 'recharts';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { Activity, ArrowUpRight, Maximize2 } from 'lucide-react';
 import { formatCurrency } from '@/utils';
 

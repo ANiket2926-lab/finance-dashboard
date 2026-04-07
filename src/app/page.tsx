@@ -4,7 +4,6 @@ import { useState } from 'react';
 import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
 import AppShell from '@/components/layout/AppShell';
 import SummaryCards from '@/components/dashboard/SummaryCards';
-import FinancialOrbit from '@/components/dashboard/FinancialOrbit';
 import FinancialOrbit3D from '@/components/dashboard/FinancialOrbit3D';
 import BalanceChart from '@/components/dashboard/BalanceChart';
 import SpendingPieChart from '@/components/dashboard/SpendingPieChart';

@@ -49,9 +49,11 @@ const renderActiveShape = (props: any) => {
 export default function SpendingPieChart({ data }: SpendingPieChartProps) {
   const [activeIndex, setActiveIndex] = useState(0);
 
-  const onPieEnter = (_: any, index: number) => {
+  const onPieEnter = (_: unknown, index: number) => {
     setActiveIndex(index);
   };
+
+  const activeData = data[activeIndex] || data[0] || { name: 'None', value: 0 };
 
   return (
     <div className="glass-card p-6 md:p-8 h-full flex flex-col">
@@ -71,6 +73,7 @@ export default function SpendingPieChart({ data }: SpendingPieChartProps) {
       <div className="relative flex-1 min-h-[320px]">
         <ResponsiveContainer width="100%" height="100%">
           <PieChart>
+            {/* @ts-ignore - Recharts 3.x type mismatch for activeIndex/activeShape */}
             <Pie
               activeIndex={activeIndex}
               activeShape={renderActiveShape}
@@ -101,10 +104,10 @@ export default function SpendingPieChart({ data }: SpendingPieChartProps) {
                   return (
                     <div className="glass-card px-4 py-3 border-white/20 shadow-2xl backdrop-blur-3xl">
                       <p className="text-[10px] font-bold text-gray-500 uppercase tracking-widest leading-tight">Category</p>
-                      <p className="text-sm font-bold text-gray-900 dark:text-white">{payload[0].name}</p>
+                      <p className="text-sm font-bold text-gray-900 dark:text-white">{payload[0]?.name}</p>
                       <div className="mt-2 flex items-baseline gap-2">
                         <p className="text-lg font-black text-blue-600 dark:text-blue-400">
-                          ${payload[0].value.toLocaleString()}
+                          ${payload[0]?.value?.toLocaleString()}
                         </p>
                       </div>
                     </div>
@@ -127,9 +130,9 @@ export default function SpendingPieChart({ data }: SpendingPieChartProps) {
               transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
               className="text-center"
             >
-              <p className="text-[10px] font-bold text-gray-400 uppercase tracking-[0.2em]">{data[activeIndex]?.name}</p>
+              <p className="text-[10px] font-bold text-gray-400 uppercase tracking-[0.2em]">{activeData.name}</p>
               <p className="text-2xl font-black text-gray-900 dark:text-white mt-1">
-                ${data[activeIndex]?.value.toLocaleString()}
+                ${activeData.value.toLocaleString()}
               </p>
             </motion.div>
           </AnimatePresence>
