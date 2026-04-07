@@ -1,10 +1,8 @@
 'use client';
 
-import { useEffect, useState, useMemo } from 'react';
 import { motion } from 'framer-motion';
-import { DollarSign, TrendingUp, TrendingDown } from 'lucide-react';
-import { formatCurrency, cn } from '@/utils';
-import { useApp } from '@/context/AppContext';
+import { TrendingUp, TrendingDown, Wallet, CreditCard, PieChart } from 'lucide-react';
+import { formatCurrency } from '@/utils';
 
 interface SummaryCardsProps {
   totalBalance: number;
@@ -12,189 +10,89 @@ interface SummaryCardsProps {
   totalExpenses: number;
 }
 
-function AnimatedNumber({ value, prefix = '' }: { value: number; prefix?: string }) {
-  const [display, setDisplay] = useState(0);
-
-  useEffect(() => {
-    const duration = 1200;
-    const steps = 40;
-    const increment = value / steps;
-    let current = 0;
-    let step = 0;
-
-    const timer = setInterval(() => {
-      step++;
-      current = Math.min(value, increment * step);
-      setDisplay(current);
-      if (step >= steps) clearInterval(timer);
-    }, duration / steps);
-
-    return () => clearInterval(timer);
-  }, [value]);
-
-  return <>{prefix}{formatCurrency(display)}</>;
-}
-
-function MiniSparkline({ data, color }: { data: number[]; color: string }) {
-  if (data.length < 2) return null;
-
-  const max = Math.max(...data);
-  const min = Math.min(...data);
-  const range = max - min || 1;
-  const width = 60;
-  const height = 24;
-  const padding = 2;
-
-  const points = data.map((val, i) => {
-    const x = padding + (i / (data.length - 1)) * (width - padding * 2);
-    const y = padding + (1 - (val - min) / range) * (height - padding * 2);
-    return `${x},${y}`;
-  }).join(' ');
-
-  return (
-    <svg width={width} height={height} className="opacity-60 group-hover:opacity-100 transition-opacity">
-      <defs>
-        <linearGradient id={`spark-${color}`} x1="0%" y1="0%" x2="0%" y2="100%">
-          <stop offset="0%" stopColor={color} stopOpacity="0.3" />
-          <stop offset="100%" stopColor={color} stopOpacity="0" />
-        </linearGradient>
-      </defs>
-      <polyline
-        points={points}
-        fill="none"
-        stroke={color}
-        strokeWidth="1.5"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  );
-}
-
-import MagneticCard from '@/components/ui/MagneticCard';
-
-export default function SummaryCards({ totalBalance, totalIncome, totalExpenses }: SummaryCardsProps) {
-  const { state } = useApp();
-
-  // Generate sparkline data from transactions
-  const sparklineData = useMemo(() => {
-    const transactions = state.transactions;
-    const monthMap = new Map<string, { income: number; expenses: number; balance: number }>();
-
-    transactions.forEach((t) => {
-      const date = new Date(t.date);
-      const key = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
-      const current = monthMap.get(key) || { income: 0, expenses: 0, balance: 0 };
-      if (t.type === 'income') current.income += t.amount;
-      else current.expenses += t.amount;
-      monthMap.set(key, current);
-    });
-
-    const sorted = Array.from(monthMap.entries()).sort(([a], [b]) => a.localeCompare(b));
-    let running = 0;
-    const balances: number[] = [];
-    const incomes: number[] = [];
-    const expenses: number[] = [];
-
-    sorted.forEach(([, data]) => {
-      running += data.income - data.expenses;
-      balances.push(running);
-      incomes.push(data.income);
-      expenses.push(data.expenses);
-    });
-
-    return { balances, incomes, expenses };
-  }, [state.transactions]);
-
+export default function SummaryCards({
+  totalBalance,
+  totalIncome,
+  totalExpenses,
+}: SummaryCardsProps) {
   const cards = [
     {
-      id: 'total-balance',
-      title: 'Total Balance',
+      title: 'Current Balance',
       value: totalBalance,
-      icon: DollarSign,
-      gradientFrom: 'rgba(99, 102, 241, 0.15)',
-      gradientTo: 'rgba(139, 92, 246, 0.05)',
-      iconColor: 'text-indigo-400',
-      iconGlow: 'shadow-indigo-500/20',
-      accentColor: '#6366f1',
-      sparkData: sparklineData.balances,
+      icon: Wallet,
+      color: 'bg-apple-blue',
+      trend: '+2.4%',
+      isPositive: true,
+      description: 'Total across all accounts'
     },
     {
-      id: 'total-income',
-      title: 'Total Income',
+      title: 'Monthly Income',
       value: totalIncome,
       icon: TrendingUp,
-      gradientFrom: 'rgba(16, 185, 129, 0.15)',
-      gradientTo: 'rgba(6, 182, 212, 0.05)',
-      iconColor: 'text-emerald-400',
-      iconGlow: 'shadow-emerald-500/20',
-      accentColor: '#10b981',
-      sparkData: sparklineData.incomes,
+      color: 'bg-apple-green',
+      trend: '+12.5%',
+      isPositive: true,
+      description: 'Total revenue this month'
     },
     {
-      id: 'total-expenses',
-      title: 'Total Expenses',
+      title: 'Monthly Expenses',
       value: totalExpenses,
       icon: TrendingDown,
-      gradientFrom: 'rgba(244, 63, 94, 0.15)',
-      gradientTo: 'rgba(236, 72, 153, 0.05)',
-      iconColor: 'text-rose-400',
-      iconGlow: 'shadow-rose-500/20',
-      accentColor: '#f43f5e',
-      sparkData: sparklineData.expenses,
+      color: 'bg-apple-purple',
+      trend: '-4.8%',
+      isPositive: false,
+      description: 'Total spending this month'
     },
   ];
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
-      {cards.map((card, index) => {
-        const Icon = card.icon;
-        return (
-          <motion.div
-            key={card.id}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: index * 0.1, duration: 0.4, ease: 'easeOut' }}
-            className="h-full"
-          >
-            <MagneticCard className="group relative overflow-hidden glass-card gradient-border h-full cursor-default w-full">
-              {/* Inner gradient glow */}
-              <div
-                className="absolute inset-0 opacity-40 group-hover:opacity-60 transition-opacity duration-500"
-                style={{
-                  background: `radial-gradient(ellipse at 30% 50%, ${card.gradientFrom}, ${card.gradientTo})`,
-                }}
-              />
-
-              <div className="relative p-6">
-                <div className="flex items-start justify-between">
-                  <div className="space-y-2">
-                    <p className="text-sm font-medium text-gray-400">
-                      {card.title}
-                    </p>
-                    <p className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white tracking-tight">
-                      <AnimatedNumber value={card.value} />
-                    </p>
-                  </div>
-                  <div className="flex flex-col items-end gap-3">
-                    <motion.div
-                      className={cn(
-                        'p-3 rounded-xl bg-white/5 border border-white/5 shadow-lg',
-                        card.iconGlow
-                      )}
-                      whileHover={{ scale: 1.1, rotate: 5 }}
-                      transition={{ type: 'spring', stiffness: 400, damping: 15 }}
-                    >
-                      <Icon className={cn('h-5 w-5', card.iconColor)} />
-                    </motion.div>
-                    <MiniSparkline data={card.sparkData} color={card.accentColor} />
-                  </div>
-                </div>
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
+      {cards.map((card, index) => (
+        <motion.div
+          key={card.title}
+          initial={{ opacity: 0, scale: 0.95, y: 20 }}
+          animate={{ opacity: 1, scale: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: index * 0.1, ease: [0.16, 1, 0.3, 1] }}
+          className="glass-card group overflow-hidden"
+        >
+          <div className="p-8 flex flex-col h-full relative">
+            {/* Background Accent */}
+            <div className={`absolute -right-12 -top-12 w-48 h-48 rounded-full opacity-[0.03] group-hover:opacity-[0.06] transition-opacity duration-700 ${card.color}`} />
+            
+            <div className="flex items-center justify-between mb-8">
+              <div className={`p-4 rounded-3xl ${card.color} text-white shadow-lg`}>
+                <card.icon size={28} strokeWidth={2.5} />
               </div>
-            </MagneticCard>
-          </motion.div>
-        );
-      })}
+              <div className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-black uppercase tracking-wider ${
+                card.isPositive 
+                  ? 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400' 
+                  : 'bg-rose-500/10 text-rose-600 dark:text-rose-400'
+              }`}>
+                {card.trend}
+              </div>
+            </div>
+
+            <div className="flex-1">
+              <p className="text-[10px] font-black text-gray-500 dark:text-gray-400 uppercase tracking-[0.2em]">{card.title}</p>
+              <h3 className="text-3xl md:text-4xl font-black text-gray-900 dark:text-white mt-1 tabular-nums tracking-tight">
+                {formatCurrency(card.value)}
+              </h3>
+              <p className="text-xs font-semibold text-gray-400 dark:text-gray-500 mt-4 leading-relaxed line-clamp-1">
+                {card.description}
+              </p>
+            </div>
+
+            <div className="mt-8 pt-6 border-t border-gray-100 dark:border-white/5 flex items-center justify-between">
+              <span className="text-[10px] font-bold text-blue-500 uppercase tracking-widest cursor-pointer hover:underline">View details</span>
+              <div className="flex -space-x-2">
+                {[1, 2, 3].map((i) => (
+                  <div key={i} className="w-6 h-6 rounded-full border-2 border-white dark:border-gray-900 bg-gray-100 dark:bg-gray-800" />
+                ))}
+              </div>
+            </div>
+          </div>
+        </motion.div>
+      ))}
     </div>
   );
 }
