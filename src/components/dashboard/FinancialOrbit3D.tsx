@@ -68,23 +68,23 @@ export default function FinancialOrbit3D({ totalBalance, totalIncome, totalExpen
           <motion.div
             animate={{ rotateZ: 360 }}
             transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
-            className="absolute w-[260px] h-[260px] md:w-[400px] md:h-[400px] preserve-3d"
+            className="absolute w-[280px] h-[280px] md:w-[440px] md:h-[440px] preserve-3d"
           >
             <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 preserve-3d">
               <motion.div 
-                style={{ translateZ: 40 }}
+                style={{ translateZ: 50 }}
                 className="group cursor-pointer"
               >
-                <div className="absolute -inset-4 bg-emerald-500/20 blur-2xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity" />
-                <div className="relative w-16 h-16 md:w-20 md:h-20 rounded-full bg-apple-green flex flex-col items-center justify-center shadow-lg border border-white/30 text-white">
-                  <TrendingUp size={20} />
-                  <span className="text-[10px] font-black uppercase mt-1">+{ (totalIncome/1000).toFixed(0) }k</span>
+                <div className="absolute -inset-6 bg-emerald-500/20 blur-3xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity" />
+                <div className="relative w-24 h-24 md:w-32 md:h-32 rounded-full bg-apple-green flex flex-col items-center justify-center shadow-2xl border border-white/30 text-white group-hover:scale-110 transition-transform duration-500">
+                  <TrendingUp size={28} strokeWidth={2.5} />
+                  <span className="text-xs font-black uppercase mt-2">+{ (totalIncome/1000).toFixed(0) }k</span>
                 </div>
                 {/* Floating Tooltip */}
-                <div className="absolute left-full ml-4 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-all scale-95 group-hover:scale-100">
-                  <div className="glass-card px-4 py-2 whitespace-nowrap">
-                    <p className="text-[10px] font-bold text-emerald-500 uppercase">Monthly Income</p>
-                    <p className="text-sm font-bold">{formatCurrency(totalIncome)}</p>
+                <div className="absolute left-full ml-6 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-all scale-95 group-hover:scale-100 pointer-events-none">
+                  <div className="glass-card px-5 py-3 whitespace-nowrap border-white/20 shadow-2xl">
+                    <p className="text-[10px] font-black text-emerald-500 uppercase tracking-widest">Monthly Income</p>
+                    <p className="text-lg font-black text-gray-900 dark:text-white mt-1">{formatCurrency(totalIncome)}</p>
                   </div>
                 </div>
               </motion.div>
@@ -95,23 +95,23 @@ export default function FinancialOrbit3D({ totalBalance, totalIncome, totalExpen
           <motion.div
             animate={{ rotateZ: -360 }}
             transition={{ duration: 40, repeat: Infinity, ease: "linear" }}
-            className="absolute w-[360px] h-[360px] md:w-[580px] md:h-[580px] preserve-3d"
+            className="absolute w-[380px] h-[380px] md:w-[620px] md:h-[620px] preserve-3d"
           >
             <div className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 preserve-3d">
               <motion.div 
-                style={{ translateZ: -60 }}
+                style={{ translateZ: -80 }}
                 className="group cursor-pointer"
               >
-                <div className="absolute -inset-4 bg-rose-500/20 blur-2xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity" />
-                <div className="relative w-16 h-16 md:w-20 md:h-20 rounded-full bg-apple-purple flex flex-col items-center justify-center shadow-lg border border-white/30 text-white">
-                  <TrendingDown size={20} />
-                  <span className="text-[10px] font-black uppercase mt-1">-{ (totalExpenses/1000).toFixed(0) }k</span>
+                <div className="absolute -inset-6 bg-rose-500/20 blur-3xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity" />
+                <div className="relative w-24 h-24 md:w-32 md:h-32 rounded-full bg-apple-purple flex flex-col items-center justify-center shadow-2xl border border-white/30 text-white group-hover:scale-110 transition-transform duration-500">
+                  <TrendingDown size={28} strokeWidth={2.5} />
+                  <span className="text-xs font-black uppercase mt-2">-{ (totalExpenses/1000).toFixed(0) }k</span>
                 </div>
                 {/* Floating Tooltip */}
-                <div className="absolute right-full mr-4 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-all scale-95 group-hover:scale-100">
-                  <div className="glass-card px-4 py-2 whitespace-nowrap">
-                    <p className="text-[10px] font-bold text-rose-500 uppercase">Monthly Spending</p>
-                    <p className="text-sm font-bold">{formatCurrency(totalExpenses)}</p>
+                <div className="absolute right-full mr-6 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-all scale-95 group-hover:scale-100 pointer-events-none">
+                  <div className="glass-card px-5 py-3 whitespace-nowrap border-white/20 shadow-2xl">
+                    <p className="text-[10px] font-black text-rose-500 uppercase tracking-widest">Monthly Spending</p>
+                    <p className="text-lg font-black text-gray-900 dark:text-white mt-1">{formatCurrency(totalExpenses)}</p>
                   </div>
                 </div>
               </motion.div>
@@ -119,8 +119,8 @@ export default function FinancialOrbit3D({ totalBalance, totalIncome, totalExpen
           </motion.div>
 
           {/* Decorative Path Lines */}
-          <div className="absolute w-[260px] h-[260px] md:w-[400px] md:h-[400px] rounded-full border border-gray-400/5 dark:border-white/5" />
-          <div className="absolute w-[360px] h-[360px] md:w-[580px] md:h-[580px] rounded-full border border-gray-400/5 dark:border-white/5" />
+          <div className="absolute w-[280px] h-[280px] md:w-[440px] md:h-[440px] rounded-full border border-gray-400/10 dark:border-white/10" />
+          <div className="absolute w-[380px] h-[380px] md:w-[620px] md:h-[620px] rounded-full border border-gray-400/10 dark:border-white/10" />
           
           {/* Subtle Particles */}
           {[...Array(6)].map((_, i) => (

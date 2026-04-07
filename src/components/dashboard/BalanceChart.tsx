@@ -49,6 +49,14 @@ export default function BalanceChart({ data }: BalanceChartProps) {
                 <stop offset="0%" stopColor="#007AFF" stopOpacity={0.4} />
                 <stop offset="100%" stopColor="#BF5AF2" stopOpacity={0.1} />
               </linearGradient>
+              <linearGradient id="colorIncome" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="5%" stopColor="#30D158" stopOpacity={0.15} />
+                <stop offset="95%" stopColor="#30D158" stopOpacity={0} />
+              </linearGradient>
+              <linearGradient id="colorExpenses" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="5%" stopColor="#BF5AF2" stopOpacity={0.15} />
+                <stop offset="95%" stopColor="#BF5AF2" stopOpacity={0} />
+              </linearGradient>
             </defs>
             <CartesianGrid 
               strokeDasharray="4 4" 
@@ -78,22 +86,22 @@ export default function BalanceChart({ data }: BalanceChartProps) {
                       <div className="flex flex-col gap-3 mt-2">
                         <div className="flex items-center justify-between gap-8">
                           <span className="text-xs font-bold text-gray-400">Total Equity</span>
-                          <span className="text-lg font-black text-gray-900 dark:text-white">{formatCurrency(payload[0].value as number)}</span>
+                          <span className="text-lg font-black text-gray-900 dark:text-white">{formatCurrency(payload[0]?.value as number)}</span>
                         </div>
                         <div className="h-px w-full bg-gray-100 dark:bg-white/5" />
                         <div className="flex items-center justify-between gap-8 text-[11px] font-bold">
                           <div className="flex items-center gap-1.5 min-w-[70px]">
-                            <div className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+                            <div className="w-1.5 h-1.5 rounded-full bg-apple-green" />
                             <span className="text-gray-500">Inbound</span>
                           </div>
-                          <span className="text-emerald-500">+{formatCurrency(payload[0].payload.income)}</span>
+                          <span className="text-emerald-500">+{formatCurrency(payload[0]?.payload.income)}</span>
                         </div>
                         <div className="flex items-center justify-between gap-8 text-[11px] font-bold">
                           <div className="flex items-center gap-1.5 min-w-[70px]">
-                            <div className="w-1.5 h-1.5 rounded-full bg-rose-500" />
+                            <div className="w-1.5 h-1.5 rounded-full bg-apple-purple" />
                             <span className="text-gray-500">Outbound</span>
                           </div>
-                          <span className="text-rose-500">-{formatCurrency(payload[0].payload.expenses)}</span>
+                          <span className="text-rose-500">-{formatCurrency(payload[0]?.payload.expenses)}</span>
                         </div>
                       </div>
                     </div>
@@ -102,6 +110,29 @@ export default function BalanceChart({ data }: BalanceChartProps) {
                 return null;
               }}
             />
+            
+            {/* Cash Flow Trends (Subtle background layers) */}
+            <Area
+              type="monotone"
+              dataKey="income"
+              stroke="#30D158"
+              strokeWidth={2}
+              strokeDasharray="4 4"
+              fillOpacity={1}
+              fill="url(#colorIncome)"
+              animationDuration={2000}
+            />
+            <Area
+              type="monotone"
+              dataKey="expenses"
+              stroke="#BF5AF2"
+              strokeWidth={2}
+              strokeDasharray="4 4"
+              fillOpacity={1}
+              fill="url(#colorExpenses)"
+              animationDuration={2000}
+            />
+
             {/* Detailed Growth Path */}
             <Area
               type="monotone"
