@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { AppProvider } from "@/context/AppContext";
+import { Analytics } from '@vercel/analytics/next';
 
 const inter = Inter({
   variable: "--font-inter",
@@ -25,6 +26,7 @@ export default function RootLayout({
     <html lang="en" className={`${inter.variable} h-full dark`} suppressHydrationWarning>
       <body className="min-h-full antialiased">
         <AppProvider>{children}</AppProvider>
+        <Analytics />
       </body>
     </html>
   );
